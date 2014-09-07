@@ -112,7 +112,7 @@ avg3 a b c = (a + b + c) / 3
 -- 5) Объявление функций (2)
 
 -- а) Удвоение значения заданного числа
--- (объясните смысл типовой аннотации: объявить имя и тип функции)
+-- (объясните смысл типовой аннотации: функция принимает и возвращает значения типа a, который принадлежит числовому классу типов)
 double :: Num a => a -> a
 double a = a * 2
 
@@ -230,6 +230,7 @@ describeTemperature t
 -- 7) Рекурсия
 
 -- Пример. Вычислить сумму всех целых чисел от 1 до n (где n >= 1):
+sum_n :: (Ord a, Num a) => a -> a
 sum_n 1 = 1
 sum_n n
   | n > 1 = n + sum_n (n-1)
@@ -247,32 +248,51 @@ sum_ab a b
       a1 = 1, a2 = 2, a3 = 3, a_k = a_{k−1} + a_{k−2} − 2*a_{k−3}, k = 4, 5, ...
       Вычислить её n-й элемент.
 -}
+eval_a_n :: (Num a, Ord a) => a -> a
 eval_a_n n
   | n < 1 = error "n should be >= 1"
   | n <= 3 = n
   | otherwise = eval_a_n (n-1) + eval_a_n (n-2) + eval_a_n (n-3)
 
 -- в) Вычислить, пользуясь рекурсией, n-ю степень числа a (n - целое):
-pow :: Int -> Int -> Int
+pow :: (Fractional a) => a -> Int -> a
 pow a n
   | n == 0 = 1
-  | n == 1 = a
-  | otherwise = a * pow a (n-1)
+  | n > 0 = a * pow a (n-1)
+  | otherwise = 1 / ( a * pow a (-n -1) )
 
 -- г) Пользуясь ранее написанной функцией pow, вычислить сумму: 1^k + 2^k + ... + n^k.
-sum_nk = undefined
+sum_nk :: (Integral a) => a -> Int -> a
+sum_nk n k = floor (iter 1)
+            where iter i
+                    | i > n = 0
+                    | otherwise = pow (fromIntegral i) k + ( iter (i + 1) )
 
 -- д) Сумма факториалов чисел от 1 до n.
+sum_fact :: Integer -> Integer
 sum_fact 1 = 1
-sum_fact n = undefined
+sum_fact n = fact 1 1
   where
-    fact n = undefined
+    fact p i
+          | i > n = 0
+          | otherwise = c + fact c (i + 1)
+          where c = p * i
+
 
 -- е) Количество цифр целого числа
-number_digits = undefined
+number_digits :: Integer -> Integer
+number_digits n = iter n 0
+          where iter a i
+                  | a == 0 = i
+                  | otherwise = iter (div a 10) (i + 1)
 
 -- ж) Проверить, является ли заданное число простым.
-isPrime = undefined
+isPrime :: Integer -> Bool
+isPrime n = check 2 n
+            where check i n
+                    | i^2 > n = True
+                    | mod n i == 0 = False
+                    | otherwise = check (i + 1) n
 
 -- 8) Разное
 
@@ -283,7 +303,11 @@ isPrime = undefined
   не делятся на 400 (например, годы 300, 1300 и 1900 не являются високосными,
   а 1200 и 2000 — являются).
 -}
-
-nDays year = undefined
+nDays :: Integer -> Int
+nDays year
+  | isLeap = 366
+  | otherwise = 365
   where
-    isLeap = undefined
+    isLeap
+      | mod year 100 == 0 && ( mod year 400 /= 0 ) = False
+      | otherwise = mod year 4 == 0
