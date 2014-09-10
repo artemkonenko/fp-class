@@ -21,8 +21,8 @@ test1 = and $ map (\x -> x == hms2sec (sec2hms x)) [1,10..10000]
 
 type Point = (Double, Double)
 
-length :: Point -> Point -> Double
-length (x1, y1) (x2, y2) = undefined
+distance :: Point -> Point -> Double
+distance (x1, y1) (x2, y2) = undefined
 
 -- triangle :: ??? -> (Double, Double)
 triangle _ = (p, s)
@@ -47,13 +47,11 @@ nEven (x:xs) = undefined
 doubleElems :: Num a => [a] -> [a]
 doubleElems = undefined
 
-
 -- 2.3
 -- Дан список целых чисел. Сформировать новый список, содержащий только нечетные элементы исходного.
 fltOdd :: Integral a => [a] -> [a]
 fltOdd [] = []
 fltOdd (x:xs) = undefined
-
 
 -- 2.4
 -- Написать следующие функции обработки списков:
