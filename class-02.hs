@@ -122,29 +122,44 @@ combine_pair (x:xs) (y:ys) = (x, y) : combine_pair xs ys
 -- Написать функции, которые по заданному n возвращают список, состоящий из n первых натуральных чисел
 -- а) в порядке убывания;
 getReverseFirstN :: Integer -> [Integer]
-getReverseFirstN 0 = []
-getReverseFirstN n = n : getReverseFirstN (n - 1)
+getReverseFirstN n = reverse $ [1..n]
 
 -- б) в порядке возрастания.
 getFirstN :: Integer -> [Integer]
-getFirstN n = reverse $ getReverseFirstN n
+getFirstN n = [1..n]
 
 -- 2.8
 -- Дан элемент типа a и список [a]. Вставить между всеми элементами списка заданный элемент.
 spamAinList :: a -> [a] -> [a]
-spamAinList y (x:xs) = x : y : spamAinList y xs
+spamAinList y (x1:x2:xs) = x1 : y : spamAinList y (x2:xs)
 spamAinList y x = x
 
 -- 2.9
 -- Написать функцию, которая разбивает список на два подсписка: элементы из начала списка,
 -- совпадающие с первым элементом, и все остальные элементы, например:
 -- [1,1,1,2,3,1] -> ([1,1,1], [2,3,1]).
+cutFront :: Eq a => [a] -> ([a], [a])
+cutFront (x:xs) = split ([x], xs)
+	where
+		split ( (x:xs), (y:ys) )
+			| x == y = split ( x:xs ++ [y], ys )
+			| otherwise = ( x:xs, y:ys )
 
 --3
 -- Даны типовые аннотации функций. Попытайтесь догадаться, что они делают, и напишите их
 -- рекурсивные реализации (если вы можете предложить несколько вариантов, реализуйте все):
 -- а) [a] -> Int -> a
+getByIndex :: [a] -> Int -> a
+getByIndex (x:xs) 0 = x
+getByIndex (x:xs) i = getByIndex xs $ i - 1
+
 -- б) Eq a => [a] -> a -> Bool
+isContain :: Eq a => [a] -> a -> Bool
+isContain [] e = False
+isContain (x:xs) e
+	| e == x = True
+	| otherwise = isContain xs e
+
 -- в) [a] -> Int -> [a]
 -- г) a -> Int -> [a]
 -- д) [a] -> [a] -> [a]
