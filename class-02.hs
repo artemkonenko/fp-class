@@ -89,11 +89,11 @@ fltRmNeg (x:xs) = cur ++ fltRmNeg xs
 -- б) увеличить элементы с чётными значениями в два раза;
 rltTwiceEven :: Integral a => [a] -> [a]
 rltTwiceEven [] = []
-rltTwiceEven (x:xs) = cur ++ rltTwiceEven xs
+rltTwiceEven (x:xs) = cur : rltTwiceEven xs
 	where
 		cur
-			| x >= 0 = [x]
-			| otherwise = []
+			| even x = 2 * x
+			| otherwise = x
 
 -- в) переставить местами чётные и нечётные по порядку следования элементы
 --    (для списков нечётной длины отбрасывать последний элемент).
@@ -122,7 +122,10 @@ combine_pair (x:xs) (y:ys) = (x, y) : combine_pair xs ys
 -- Написать функции, которые по заданному n возвращают список, состоящий из n первых натуральных чисел
 -- а) в порядке убывания;
 getReverseFirstN :: Integer -> [Integer]
-getReverseFirstN n = reverse $ [1..n]
+getReverseFirstN n = reverse' $ [1..n]
+	where
+		reverse' [] = []
+		reverse' (x:xs) = reverse xs ++ [x]
 
 -- б) в порядке возрастания.
 getFirstN :: Integer -> [Integer]
@@ -161,8 +164,63 @@ isContain (x:xs) e
 	| otherwise = isContain xs e
 
 -- в) [a] -> Int -> [a]
+lstRepeat :: [a] -> Int -> [a]
+lstRepeat xs 1 = xs
+lstRepeat xs n = (++) xs $ lstRepeat xs $ n - 1
+
+lstRemove :: [a] -> Int -> [a]
+lstRemove (x:xs) 0 = xs
+lstRemove (x:xs) i = (++) [x] $ lstRemove xs $ i - 1
+
 -- г) a -> Int -> [a]
+aRepeat :: a -> Int -> [a]
+aRepeat a n = lstRepeat [a] n
+
 -- д) [a] -> [a] -> [a]
+lstConcat :: [a] -> [a] -> [a]
+lstConcat xs ys = xs ++ ys
+
+lstMix :: [a] -> [a] -> [a]
+lstMix xs [] = xs
+lstMix [] ys = ys
+lstMix (x:xs) (y:ys) = (++) [x] $ (++) [y] $ lstMix xs ys
+
 -- е) Eq a => [a] -> [[a]]
+lstGroup :: Eq a => [a] -> [[a]]
+lstGroup [] = []
+lstGroup xs = filter' (== head xs) xs : ( lstGroup $ filter' (/= head' xs) xs )
+	where
+		head' (x:xs) = x
+
+		filter' p [] = []
+		filter' p (x:xs)
+			| p x = x : filter' p xs
+			| otherwise = filter' p xs
+
 -- ж) [a] -> [(Int, a)]
+lstEnumerate :: [a] -> [(Int, a)]
+lstEnumerate = zip' [0..]
+	where
+		zip' [] _ = []
+		zip' _ [] = []
+		zip' (x:xs) (y:ys) = (x,y) : zip' xs ys
+
+
 -- з) Eq a => [a] -> [a]
+lstFirsts :: Eq a => [a] -> [a]
+lstFirsts [] = []
+lstFirsts (x:xs) = x : res xs
+	where 
+		res [] = []
+		res (y:ys)
+			| x == y = y : res ys
+			| otherwise = res ys
+
+lstUniq :: Eq a => [a] -> [a]
+lstUniq [] = []
+lstUniq (x:xs) = x : ( lstUniq $ filter (/= x) xs)
+	where
+		filter' p [] = []
+		filter' p (x:xs)
+			| p x = x : filter' p xs
+			| otherwise = filter' p xs
