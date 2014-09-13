@@ -25,18 +25,18 @@ test1 = and $ map (\x -> x == hms2sec (sec2hms x)) [1,10..10000]
 
 type Point = (Double, Double)
 
-length :: Point -> Point -> Double
-length (x1, y1) (x2, y2) = let
+distance :: Point -> Point -> Double
+distance (x1, y1) (x2, y2) = let
                             a = flip (^) 2 $ (-) x1 x2
                             b = flip (^) 2 $ (-) y1 y2
                            in sqrt $ (+) a b
                         
--- triangle :: Point -> Point -> Point -> (Double, Double)
+triangle :: Point -> Point -> Point -> (Double, Double)
 triangle a b c = (p, s)
   where
-    la = Main.length a b
-    lb = Main.length a c
-    lc = Main.length b c
+    la = distance a b
+    lb = distance a c
+    lc = distance b c
     p  = la + lb + lc
     halfp = p / 2
     s = sqrt $ halfp * (halfp - la) * (halfp - lb) * (halfp - lc)
@@ -63,7 +63,6 @@ doubleElems :: Num a => [a] -> [a]
 doubleElems [] = []
 doubleElems (x:xs) = x * 2 : doubleElems xs
 
-
 -- 2.3
 -- Дан список целых чисел. Сформировать новый список, содержащий только нечетные элементы исходного.
 fltOdd :: Integral a => [a] -> [a]
@@ -73,7 +72,6 @@ fltOdd (x:xs) = cur ++ fltOdd xs
         cur
             | odd x = [x]
             | otherwise = []
-
 
 -- 2.4
 -- Написать следующие функции обработки списков:
