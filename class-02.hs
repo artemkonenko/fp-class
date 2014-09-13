@@ -3,10 +3,10 @@
 -- Результат возвращать в виде кортежа из трёх элементов. Реализовать также обратное преобразование.
 sec2hms :: Int -> (Int, Int, Int)
 sec2hms sec = ( h, m, s )
-			where 
-				h = div sec 3600
-				m = flip div 60 $ mod sec 3600
-				s = mod sec 60
+            where 
+                h = div sec 3600
+                m = flip div 60 $ mod sec 3600
+                s = mod sec 60
 
 hms2sec :: (Int, Int, Int) -> Int
 hms2sec (h, m, s) = h * 3600 + m * 60 + s
@@ -27,19 +27,19 @@ type Point = (Double, Double)
 
 length :: Point -> Point -> Double
 length (x1, y1) (x2, y2) = let
-							a = flip (^) 2 $ (-) x1 x2
-							b = flip (^) 2 $ (-) y1 y2
-						   in sqrt $ (+) a b
-						
+                            a = flip (^) 2 $ (-) x1 x2
+                            b = flip (^) 2 $ (-) y1 y2
+                           in sqrt $ (+) a b
+                        
 -- triangle :: Point -> Point -> Point -> (Double, Double)
 triangle a b c = (p, s)
   where
-	la = Main.length a b
-	lb = Main.length a c
-	lc = Main.length b c
-	p  = la + lb + lc
-	halfp = p / 2
-	s = sqrt $ halfp * (halfp - la) * (halfp - lb) * (halfp - lc)
+    la = Main.length a b
+    lb = Main.length a c
+    lc = Main.length b c
+    p  = la + lb + lc
+    halfp = p / 2
+    s = sqrt $ halfp * (halfp - la) * (halfp - lb) * (halfp - lc)
 
 -- Во всех следующих заданиях использование стандартных функций обработки списков не допускается.
 -- Все решения должны реализовываться рекурсивными функциями.
@@ -49,10 +49,10 @@ triangle a b c = (p, s)
 nEven :: Integral a => [a] -> Int
 nEven [] = 0
 nEven (x:xs) = (+) cur $ nEven xs 
-		where
-			cur
-				| even x = 1
-				| otherwise = 0
+        where
+            cur
+                | even x = 1
+                | otherwise = 0
 
 -- 2.2
 -- Увеличить все элементы заданного списка в два раза.
@@ -69,10 +69,10 @@ doubleElems (x:xs) = x * 2 : doubleElems xs
 fltOdd :: Integral a => [a] -> [a]
 fltOdd [] = []
 fltOdd (x:xs) = cur ++ fltOdd xs
-	where
-		cur
-			| odd x = [x]
-			| otherwise = []
+    where
+        cur
+            | odd x = [x]
+            | otherwise = []
 
 
 -- 2.4
@@ -81,19 +81,19 @@ fltOdd (x:xs) = cur ++ fltOdd xs
 fltRmNeg :: Integral a => [a] -> [a]
 fltRmNeg [] = []
 fltRmNeg (x:xs) = cur ++ fltRmNeg xs
-	where
-		cur
-			| x >= 0 = [x]
-			| otherwise = []
+    where
+        cur
+            | x >= 0 = [x]
+            | otherwise = []
 
 -- б) увеличить элементы с чётными значениями в два раза;
 rltTwiceEven :: Integral a => [a] -> [a]
 rltTwiceEven [] = []
 rltTwiceEven (x:xs) = cur : rltTwiceEven xs
-	where
-		cur
-			| even x = 2 * x
-			| otherwise = x
+    where
+        cur
+            | even x = 2 * x
+            | otherwise = x
 
 -- в) переставить местами чётные и нечётные по порядку следования элементы
 --    (для списков нечётной длины отбрасывать последний элемент).
@@ -123,9 +123,9 @@ combine_pair (x:xs) (y:ys) = (x, y) : combine_pair xs ys
 -- а) в порядке убывания;
 getReverseFirstN :: Integer -> [Integer]
 getReverseFirstN n = reverse' $ [1..n]
-	where
-		reverse' [] = []
-		reverse' (x:xs) = reverse xs ++ [x]
+    where
+        reverse' [] = []
+        reverse' (x:xs) = reverse xs ++ [x]
 
 -- б) в порядке возрастания.
 getFirstN :: Integer -> [Integer]
@@ -143,10 +143,10 @@ spamAinList y x = x
 -- [1,1,1,2,3,1] -> ([1,1,1], [2,3,1]).
 cutFront :: Eq a => [a] -> ([a], [a])
 cutFront (x:xs) = split ([x], xs)
-	where
-		split ( (x:xs), (y:ys) )
-			| x == y = split ( x:xs ++ [y], ys )
-			| otherwise = ( x:xs, y:ys )
+    where
+        split ( (x:xs), (y:ys) )
+            | x == y = split ( x:xs ++ [y], ys )
+            | otherwise = ( x:xs, y:ys )
 
 --3
 -- Даны типовые аннотации функций. Попытайтесь догадаться, что они делают, и напишите их
@@ -160,8 +160,8 @@ getByIndex (x:xs) i = getByIndex xs $ i - 1
 isContain :: Eq a => [a] -> a -> Bool
 isContain [] e = False
 isContain (x:xs) e
-	| e == x = True
-	| otherwise = isContain xs e
+    | e == x = True
+    | otherwise = isContain xs e
 
 -- в) [a] -> Int -> [a]
 lstRepeat :: [a] -> Int -> [a]
@@ -189,38 +189,38 @@ lstMix (x:xs) (y:ys) = (++) [x] $ (++) [y] $ lstMix xs ys
 lstGroup :: Eq a => [a] -> [[a]]
 lstGroup [] = []
 lstGroup xs = filter' (== head xs) xs : ( lstGroup $ filter' (/= head' xs) xs )
-	where
-		head' (x:xs) = x
+    where
+        head' (x:xs) = x
 
-		filter' p [] = []
-		filter' p (x:xs)
-			| p x = x : filter' p xs
-			| otherwise = filter' p xs
+        filter' p [] = []
+        filter' p (x:xs)
+            | p x = x : filter' p xs
+            | otherwise = filter' p xs
 
 -- ж) [a] -> [(Int, a)]
 lstEnumerate :: [a] -> [(Int, a)]
 lstEnumerate = zip' [0..]
-	where
-		zip' [] _ = []
-		zip' _ [] = []
-		zip' (x:xs) (y:ys) = (x,y) : zip' xs ys
+    where
+        zip' [] _ = []
+        zip' _ [] = []
+        zip' (x:xs) (y:ys) = (x,y) : zip' xs ys
 
 
 -- з) Eq a => [a] -> [a]
 lstFirsts :: Eq a => [a] -> [a]
 lstFirsts [] = []
 lstFirsts (x:xs) = x : res xs
-	where 
-		res [] = []
-		res (y:ys)
-			| x == y = y : res ys
-			| otherwise = res ys
+    where 
+        res [] = []
+        res (y:ys)
+            | x == y = y : res ys
+            | otherwise = res ys
 
 lstUniq :: Eq a => [a] -> [a]
 lstUniq [] = []
 lstUniq (x:xs) = x : ( lstUniq $ filter (/= x) xs)
-	where
-		filter' p [] = []
-		filter' p (x:xs)
-			| p x = x : filter' p xs
-			| otherwise = filter' p xs
+    where
+        filter' p [] = []
+        filter' p (x:xs)
+            | p x = x : filter' p xs
+            | otherwise = filter' p xs
