@@ -1,3 +1,4 @@
+{-# LANGUAGE TypeSynonymInstances,FlexibleInstances #-}
 {-
    Определите класс типов Listable с двумя функциями:
    toList :: a -> [a]
