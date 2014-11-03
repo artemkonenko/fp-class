@@ -13,3 +13,9 @@ instance AbstractQueue Queue where
 
   dequeue (QueueImpl (x:xs)) = (x, QueueImpl xs)
 
+instance Show a => Show (Queue a) where
+    show (QueueImpl []) = "<>"
+    show (QueueImpl (x:xs)) = "<" ++ showq (QueueImpl xs) ++ " -> " ++ show x ++ " >"
+        where
+            showq (QueueImpl []) = "|"
+            showq (QueueImpl (x:xs)) = showq (QueueImpl xs) ++ " -> " ++ show x
