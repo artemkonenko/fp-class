@@ -1,4 +1,5 @@
 import System.Environment
+import Data.Functor
 
 {-
   Напишите функцию reduce, принимающую один целочисленный аргумент a и возвращающую 0,
@@ -7,7 +8,10 @@ import System.Environment
 -}
 
 reduce :: Integral a => a -> a
-reduce = undefined
+reduce a
+  | mod a 3 == 0 = 0
+  | mod a 2 /= 0 = a * a
+  | otherwise = a * a * a
 
 {-
   Напишите функцию, применяющую функцию reduce заданное количество раз к значению в контексте,
