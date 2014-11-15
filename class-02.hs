@@ -26,18 +26,9 @@ test1 = and $ map (\x -> x == hms2sec (sec2hms x)) [1,10..10000]
 type Point = (Double, Double)
 
 distance :: Point -> Point -> Double
-<<<<<<< HEAD
-distance (x1, y1) (x2, y2) = let
-                            a = flip (^) 2 $ (-) x1 x2
-                            b = flip (^) 2 $ (-) y1 y2
-                           in sqrt $ (+) a b
-                        
-triangle :: Point -> Point -> Point -> (Double, Double)
-=======
 distance (x1, y1) (x2, y2) = sqrt $ ( x1 - x2 )^2 + ( y1 - y2 )^2
-                        
--- triangle :: Point -> Point -> Point -> (Double, Double)
->>>>>>> class-02
+
+triangle :: Point -> Point -> Point -> (Double, Double)
 triangle a b c = (p, s)
   where
     la = distance a b
