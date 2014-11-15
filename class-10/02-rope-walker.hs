@@ -1,4 +1,5 @@
 import Control.Monad 
+import Control.Monad.Instances
 {-
   Модифицируйте имеющуюся реализацию задачи о канатоходце (лекция 9) следующим образом:
   1) реализуйте загрузку входных данных из файла следующего вида:
@@ -25,23 +26,35 @@ type Pole = (Birds, Birds)
 
 balance = 3
 
-updatePole :: Pole -> Maybe Pole
-updatePole p = if unbalanced p then Nothing else Just p
+updatePole :: Pole -> Either String Pole
+updatePole p = if unbalanced p then reason p else Right p
   where
     unbalanced (l, r) = abs (l - r) > balance
+    reason (l, r) = if l < r then Left "Not enouth the birds on left side" else Left "Not enouth the birds on rigth side"
 
-landLeft :: Birds -> Pole -> Maybe Pole
-landLeft n (left, right) = updatePole (left + n, right)
+landBoth :: Birds -> Birds -> Pole -> Either String Pole
+landBoth l r (left, right) = updatePole (left + l, right + r)
 
-landRight :: Birds -> Pole -> Maybe Pole
-landRight n (left, right) = updatePole (left, right + n)
+landLeft :: Birds -> Pole -> Either String Pole
+landLeft n p = landBoth n 0 p
 
-banana :: Pole -> Maybe Pole
-banana = const Nothing
+landRight :: Birds -> Pole -> Either String Pole
+landRight n p = landBoth 0 n p
 
-tests = all test [1..3]
+unlandAll :: Pole -> Either String Pole
+unlandAll p = updatePole (0, 0)
+
+banana :: Pole -> Either String Pole
+banana = const (Left "Banana")
+
+tests = all test [1..5]
   where
     test 1 = (return (0, 0) >>= landLeft 1 >>= landRight 4 
-              >>= landLeft (-1) >>= landRight (-2)) == Nothing
-    test 2 = (return (0, 0) >>= landRight 2 >>= landLeft 2 >>= landRight 2) == Just (2, 4)
-    test 3 = (return (0, 0) >>= landLeft 1 >>= banana >>= landRight 1) == Nothing
+              >>= landLeft (-1) >>= landRight (-2)) == Left "unbalance"
+    test 2 = (return (0, 0) >>= landRight 2 >>= landLeft 2 >>= landRight 2) == Right (2, 4)
+    test 3 = (return (0, 0) >>= landLeft 1 >>= banana >>= landRight 1) == Left "Banana"
+    test 4 = (return (0, 0) >>= landBoth 5 8 >>= landLeft 1) == Right (6, 8)
+    test 5 = (return (0, 0) >>= landBoth 14 14 >>= unlandAll >>= landRight 2 >>= landLeft 4) == Right (4, 2)
+
+load :: String -> Maybe Pole
+load fname = undefined
