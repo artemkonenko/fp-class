@@ -1,0 +1,5 @@
+language: haskell
+
+install:
+    - cabal-1.18 update
+    - cabal-1.18 install --only-dependencies

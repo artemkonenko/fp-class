@@ -1,0 +1,10 @@
+Name: FP
+Version: 0.0.11
+Cabal-Version: >= 1.8
+License: BSD3
+Author: Artem Konenko
+Maintainer: Artem Konenko <yadummer@gmail.com>
+Description: Home tasks to FP cource
+Stability: experimental
+Build-Type: Simple
+Library
