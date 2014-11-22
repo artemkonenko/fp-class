@@ -1,10 +1,19 @@
 Name: FP
 Version: 0.0.11
 Cabal-Version: >= 1.8
-License: BSD3
+License: MIT
 Author: Artem Konenko
 Maintainer: Artem Konenko <yadummer@gmail.com>
 Description: Home tasks to FP cource
 Stability: experimental
 Build-Type: Simple
+
 Library
+  Build-Depends:   base, mtl
+  Exposed-Modules: StateQueue
+  Hs-Source-Dirs:  class-11
+
+Executable program1
+  Build-Depends:   base, mtl
+  Main-Is:         queueTest.hs
+  Hs-Source-Dirs:  class-11

@@ -8,9 +8,10 @@ queueTest = do
     enqueue 2
     enqueue 3
     a <- dequeue
-    a <- dequeue
-    return a
+    b <- dequeue
+    return (a + b)
 
+main :: IO ()
 main = do
     let a = runState queueTest ( empty :: Queue Integer)
     let b = runState queueTest (snd a)
