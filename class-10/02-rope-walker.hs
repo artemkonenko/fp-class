@@ -45,3 +45,8 @@ tests = all test [1..3]
               >>= landLeft (-1) >>= landRight (-2)) == Nothing
     test 2 = (return (0, 0) >>= landRight 2 >>= landLeft 2 >>= landRight 2) == Just (2, 4)
     test 3 = (return (0, 0) >>= landLeft 1 >>= banana >>= landRight 1) == Nothing
+
+main :: IO ()
+main = do
+  print tests
+  return ()

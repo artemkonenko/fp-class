@@ -8,12 +8,22 @@ Description: Home tasks to FP cource
 Stability: experimental
 Build-Type: Simple
 
+Executable class-06_genFile
+  Build-Depends:   base
+  Main-Is:         01-genfile.hs
+  Hs-Source-Dirs:  class-06
+
+Executable class-10_ropeWalker
+  Build-Depends:   base
+  Main-Is:         02-rope-walker.hs
+  Hs-Source-Dirs:  class-10
+
 Library
   Build-Depends:   base, mtl
   Exposed-Modules: StateQueue
   Hs-Source-Dirs:  class-11
 
-Executable program1
+Executable class-11_queueTest
   Build-Depends:   base, mtl
   Main-Is:         queueTest.hs
   Hs-Source-Dirs:  class-11
