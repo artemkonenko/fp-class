@@ -4,7 +4,15 @@ import ParseNumbers
 
 {- Напишите парсер для вещественных чисел. -}
 float :: Parser Float
-float = undefined
+float = Parser f
+      where
+        shift = (10**) . fromInteger . ceiling . log . fromInteger
+        f [] = Nothing
+        f cs = do
+          d <- integer
+          char '.'
+          p <- integer
+          return $ (fromInteger d) + (p / shift p)
 
 {-
   Напишите парсер для представления комплексных чисел,
